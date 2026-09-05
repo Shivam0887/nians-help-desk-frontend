@@ -47,8 +47,12 @@ export default function NewTicketPage() {
   const { user, isLoading: authLoading } = useAuthStore();
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login');
+    if (!authLoading) {
+      if (!user) {
+        router.push('/login');
+      } else if (user.role === 'admin') {
+        router.push('/tickets');
+      }
     }
   }, [user, authLoading, router]);
 

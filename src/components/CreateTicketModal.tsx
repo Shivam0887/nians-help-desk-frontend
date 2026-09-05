@@ -4,7 +4,7 @@ import { useState, useEffect, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCreateTicketModal } from '../lib/store';
+import { useAuthStore, useCreateTicketModal } from '../lib/store';
 import { apiRequest } from '../lib/api';
 import type { Ticket, Priority, Category } from '../types';
 import { AttachmentUpload } from './AttachmentUpload';
@@ -56,6 +56,7 @@ export function CreateTicketModal({
   const router = useRouter();
   const queryClient = useQueryClient();
   const store = useCreateTicketModal();
+  const { user } = useAuthStore();
 
   const isModalOpen = propIsOpen !== undefined ? propIsOpen : store.isOpen;
   const handleModalChange = propOnOpenChange !== undefined ? propOnOpenChange : store.setIsOpen;
@@ -176,6 +177,8 @@ export function CreateTicketModal({
       setIsSubmitting(false);
     }
   };
+
+  if (user?.role === 'admin') return null;
 
   return (
     <Modal.Backdrop isOpen={isModalOpen} onOpenChange={handleModalChange}>

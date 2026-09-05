@@ -155,7 +155,7 @@ export function Navbar() {
         </div>
       </div>
     </header>
-    <CreateTicketModal />
+    {!isAdmin && <CreateTicketModal />}
   </>
   );
 }

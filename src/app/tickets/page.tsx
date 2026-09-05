@@ -83,13 +83,15 @@ export default function TicketsPage() {
             </p>
           </div>
 
-          <Button
-            onPress={openModal}
-            className="bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl px-4 py-2 flex items-center gap-2 text-xs shadow-xs cursor-pointer"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Raise Ticket</span>
-          </Button>
+          {!isAdmin && (
+            <Button
+              onPress={openModal}
+              className="bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl px-4 py-2 flex items-center gap-2 text-xs shadow-xs cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Raise Ticket</span>
+            </Button>
+          )}
         </div>
 
         {/* Filters */}
@@ -130,16 +132,20 @@ export default function TicketsPage() {
             <p className="text-xs text-slate-500 max-w-sm mx-auto mb-6 leading-relaxed">
               {filters.search || filters.status || filters.priority || filters.category
                 ? 'No tickets match the selected filters. Try adjusting your query.'
-                : 'You have not submitted any support tickets yet. Click below to create your first one.'}
+                : isAdmin
+                  ? 'There are currently no customer support tickets in the system queue.'
+                  : 'You have not submitted any support tickets yet. Click below to create your first one.'}
             </p>
-            <Button
-              size="sm"
-              onPress={openModal}
-              className="bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl text-xs px-4 cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5 mr-1" />
-              Create Ticket
-            </Button>
+            {!isAdmin && (
+              <Button
+                size="sm"
+                onPress={openModal}
+                className="bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl text-xs px-4 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5 mr-1" />
+                Create Ticket
+              </Button>
+            )}
           </div>
         ) : (
           <>
