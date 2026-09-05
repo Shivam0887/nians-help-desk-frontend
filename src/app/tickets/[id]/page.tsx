@@ -18,6 +18,7 @@ import {
   Clock,
   Paperclip,
   Download,
+  ExternalLink,
   FileText,
   Image as ImageIcon,
   Shield,
@@ -267,15 +268,29 @@ export default function TicketDetailPage() {
                     return (
                       <div
                         key={file.id}
-                        className="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/50 transition-colors"
+                        className="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/50 transition-colors gap-3"
                       >
-                        <div className="flex items-center gap-3 truncate">
+                        <div className="flex items-center gap-3 truncate min-w-0">
                           {isImage ? (
-                            <ImageIcon className="w-4 h-4 text-slate-600 shrink-0" />
+                            <a
+                              href={fileUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-slate-200 hover:opacity-80 transition-opacity bg-slate-100 flex items-center justify-center cursor-pointer"
+                              title="Click to preview image in new tab"
+                            >
+                              <img
+                                src={fileUrl}
+                                alt={file.filename}
+                                className="w-full h-full object-cover"
+                              />
+                            </a>
                           ) : (
-                            <FileText className="w-4 h-4 text-slate-400 shrink-0" />
+                            <div className="w-10 h-10 rounded-lg shrink-0 border border-slate-200 bg-slate-100 flex items-center justify-center text-slate-400">
+                              <FileText className="w-5 h-5" />
+                            </div>
                           )}
-                          <div className="truncate">
+                          <div className="truncate min-w-0">
                             <p className="text-xs font-medium text-slate-800 truncate">
                               {file.filename}
                             </p>
@@ -285,15 +300,29 @@ export default function TicketDetailPage() {
                           </div>
                         </div>
 
-                        <a
-                          href={fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 transition-colors"
-                          title="Open / Download attachment"
-                        >
-                          <Download className="w-4 h-4" />
-                        </a>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <a
+                            href={fileUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-200/80 shadow-2xs transition-colors"
+                            title="Preview attachment in new tab"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+                            <span>Preview</span>
+                          </a>
+
+                          <a
+                            href={fileUrl}
+                            download={file.filename}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-colors"
+                            title="Download attachment"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                          </a>
+                        </div>
                       </div>
                     );
                   })}

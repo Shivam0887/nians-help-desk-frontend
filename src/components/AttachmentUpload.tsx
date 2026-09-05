@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, type ChangeEvent, type DragEvent } from 'react';
-import { UploadCloud, X, FileText, Image as ImageIcon } from 'lucide-react';
+import { UploadCloud, X, FileText, Image as ImageIcon, ExternalLink } from 'lucide-react';
 
 interface AttachmentUploadProps {
   files: File[];
@@ -130,17 +130,32 @@ export function AttachmentUpload({
                   </span>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFile(idx);
-                  }}
-                  className="text-slate-400 hover:text-rose-600 p-1 transition-colors"
-                  title="Remove file"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const blobUrl = URL.createObjectURL(file);
+                      window.open(blobUrl, '_blank');
+                    }}
+                    className="text-slate-400 hover:text-slate-800 p-1 rounded-md hover:bg-slate-100 transition-colors"
+                    title="Preview in new tab"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFile(idx);
+                    }}
+                    className="text-slate-400 hover:text-rose-600 p-1 rounded-md hover:bg-rose-50 transition-colors"
+                    title="Remove file"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             );
           })}
