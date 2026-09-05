@@ -260,6 +260,10 @@ export default function TicketDetailPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {ticket.attachments.map((file) => {
                     const isImage = file.mimetype.startsWith('image/');
+                    const fileUrl = file.url.startsWith('http')
+                      ? file.url
+                      : `${(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '')}${file.url}`;
+
                     return (
                       <div
                         key={file.id}
@@ -282,7 +286,7 @@ export default function TicketDetailPage() {
                         </div>
 
                         <a
-                          href={file.url}
+                          href={fileUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 transition-colors"
