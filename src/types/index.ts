@@ -93,3 +93,19 @@ export interface DashboardStats {
   recentTickets: Ticket[];
   ticketsOverTime: { date: string; count: number }[];
 }
+
+export interface InAppNotification {
+  id: string;
+  userId: string;
+  ticketId?: string | null;
+  title: string;
+  message: string;
+  type: string;
+  read: boolean;
+  createdAt: string;
+}
+
+export interface NotificationsResponse {
+  notifications: InAppNotification[];
+  unreadCount: number;
+}

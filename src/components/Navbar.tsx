@@ -7,12 +7,17 @@ import { useAuthStore } from '../lib/store';
 import { BarChart3, LogOut, Shield, User } from 'lucide-react';
 import { Button } from '@heroui/react';
 import { CreateTicketModal } from './CreateTicketModal';
+import { NotificationDropdown } from './NotificationDropdown';
+import { useRealtime } from '../lib/useRealtime';
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuthStore();
   const [mounted, setMounted] = useState(false);
+
+  // Initialize real-time status and in-app notification SSE listener
+  useRealtime();
 
   useEffect(() => {
     setMounted(true);
@@ -90,6 +95,7 @@ export function Navbar() {
           {mounted ? (
             user ? (
               <>
+                <NotificationDropdown />
                 <div className="flex items-center gap-2.5">
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold border ${
